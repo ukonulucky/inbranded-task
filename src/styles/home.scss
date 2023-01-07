@@ -1,0 +1,46 @@
+.wrapper{
+    display: flex;
+    height: 100%;
+  
+    &-first{
+        flex: 2;
+    }
+    &-center{
+        flex: 4;
+     .top{
+        display: flex;
+        justify-content: space-between;
+     }
+    }
+    &-last{
+        flex: 1;
+
+    }
+}
+
+.text{
+    display: flex;
+    align-items: center;
+    .heading{
+        margin-left: 10px;
+        font-size: 1.2rem;
+    }
+    .content{
+        margin-left: 20px;
+        font-size: 10px;
+        color: #959191;
+    }
+    input{
+      background-color: purple;
+    }
+    // input[type="checkbox"]{
+    //     cursor: pointer;
+    //     padding: 10px;
+    //     width: 0;
+    //     opacity: 0;
+    //     margin: 0;
+    // }
+    .click{
+        margin-left: 20px;
+    }
+}

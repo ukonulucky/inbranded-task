@@ -1,0 +1,42 @@
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  height: 80px;
+}
+.header .headerFirst, .header .headerCenter, .header .headerEnd {
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  font-size: 1rem;
+}
+.header .headerFirst span, .header .headerCenter span, .header .headerEnd span {
+  text-transform: capitalize;
+  cursor: pointer;
+}
+.header .headerFirst .search {
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
+  padding: 10px;
+  background-color: rgb(211, 210, 210);
+  border-radius: 10px;
+}
+.header .headerFirst .search input {
+  border: 0px;
+  background-color: inherit;
+  outline: none;
+  color: white;
+}
+.header .headerFirst .search input::-moz-placeholder {
+  color: white;
+}
+.header .headerFirst .search input:-ms-input-placeholder {
+  color: white;
+}
+.header .headerFirst .search input::placeholder {
+  color: white;
+}/*# sourceMappingURL=header.css.map */

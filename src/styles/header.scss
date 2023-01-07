@@ -1,0 +1,36 @@
+.header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    height: 80px;
+    .headerFirst, .headerCenter, .headerEnd{
+        display:flex;
+        align-items: center;
+        column-gap: 10px;
+    
+        font-size: 1rem;
+        span{
+            text-transform: capitalize;
+            cursor: pointer;
+        }
+    }
+    .headerFirst .search{
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+        padding: 10px;
+        background-color: rgb(211, 210, 210);
+        border-radius: 10px;
+        input{
+            border: 0px;
+            background-color: inherit;
+            outline: none;
+            color: white;
+            &::placeholder{
+                color: white;
+            }
+        }
+    
+    }
+}
