@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-function Task() {
+function Task({handleReload}) {
   const [show, setShow] = useState(false);
   const [submit, setSubmit] = useState(false)
   
@@ -35,6 +35,7 @@ function Task() {
    setTaskContent("")
    setTaskHeading("")
    setSubmit(!submit)
+   alert("task created successfully")
   }
   if(state.length > 0){
     localStorage.setItem("items", JSON.stringify(state))
@@ -44,7 +45,7 @@ function Task() {
 
   const handleClose = () => {
     setShow(false)
-    window.location.reload()
+    handleReload()
   };
   const handleShow = () => setShow(true);
 
@@ -61,7 +62,7 @@ function Task() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Modal Task</Modal.Title>
+          <Modal.Title>Create Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <form onSubmit={handleSubmit}>
@@ -96,7 +97,7 @@ function Task() {
             />
           </div>
          
-            <button>
+            <button  className="mt-3 border-0 rounded bg-primary p-2 text-white" >
                 Submit Task
             </button>
         </form>

@@ -6,18 +6,19 @@ import {AiOutlineArrowRight } from "react-icons/ai"
 import {MdDeleteForever} from "react-icons/md"
 import "../styles/ProjectModel.css"
 
-
 function ProjectModel({ProjectName, projectId, count}) {
   const [show, setShow] = useState(false);
   const [state,setState] = useState([]);
-  const [task,setTask] = useState("");
+  const [task,setTask] = useState(""); 
   const [error,setError] = useState(false);
   const [projectState,setProjectState] = useState([]);
+  const [reload, setReload] = useState(true)
 
 
  
 
   useEffect(() => {
+    console.log("useEffect() called")
     const data = JSON.parse(localStorage.getItem("items"))
     if(data){
       setState([...data])
@@ -26,7 +27,7 @@ function ProjectModel({ProjectName, projectId, count}) {
     if(projects){
       setProjectState([...projects])
     } 
-      }, [])
+      }, [reload])
 
 
  const handleForm = (e) => {
@@ -37,14 +38,27 @@ function ProjectModel({ProjectName, projectId, count}) {
    }else{
     setError(false)
    }
+   // geting all projects fro DB
    const projects = JSON.parse(localStorage.getItem("projects"))
+   //getting a single project from Db by using its index 
          const Id = projects.findIndex(i => i.id === projectId)
          const myProject = projects.slice(Id, Id + 1)
+        // checking if the task already exist in the project
+         console.log('THIS IS the task', task) 
+            
+ //getting a single task from Db by using its index 
        const taskObject= state?.find(i => i.id === JSON.parse(task))
+     const allreadyExistedTask =  myProject[0].task.find(i => i.id === taskObject.id)
+     if(allreadyExistedTask) {
+      alert("task already exists in project")
+      return 
+     }
          myProject[0].task = [...myProject[0].task, taskObject]
       projects.splice(Id, 1, {...myProject[0]})
      localStorage.setItem("projects", JSON.stringify(projects))
+     setReload(!reload)
  }
+
 
 
   const handleClose = () => {
@@ -55,7 +69,7 @@ function ProjectModel({ProjectName, projectId, count}) {
   const elementToShow = projectState?.find((i) => {
   return i.id === projectId
   })
-  console.log("this is the element to show",elementToShow)
+
  const dropDownOptions = state?.map((i,j) => {
 
   if(elementToShow.task?.id && i.task?.id !== elementToShow.task?.id ){
@@ -80,9 +94,12 @@ const modifiedData =  item.filter((i) => {
   item.splice(projectId, 1, updatedData)
 
   localStorage.setItem("projects", JSON.stringify(item))
+
   // window.location.reload()
 //     window.location.reload()
-console.log("delete project")
+setReload(!reload)
+alert("task deleted successfully")
+
  }
 
  const taskElement = taskList[0]?.task.map((i,j) => {

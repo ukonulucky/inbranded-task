@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function Project() {
+function Project({handleReload}) {
   const [show, setShow] = useState(false);
   const [submit, setSubmit] = useState(false)  
   const [ProjectName, setProjectName] = useState("");
@@ -31,16 +31,17 @@ function Project() {
    }
    setProjectName("")
    setSubmit(!submit)
+   alert("Project created successfully")
   }
   if(state.length > 0){
     localStorage.setItem("projects", JSON.stringify(state))
  }
- console.log(ProjectName)
+
 
 
   const handleClose = () => {
     setShow(false)
-    window.location.reload()
+   handleReload()
   };
   const handleShow = () => setShow(true);
 
@@ -76,7 +77,7 @@ function Project() {
             }
             />
           </div>
-            <button className='mt-3'>
+            <button  className='mt-3 border-0 rounded bg-primary p-2 text-white'>
                 Submit Project
             </button>
         </form>

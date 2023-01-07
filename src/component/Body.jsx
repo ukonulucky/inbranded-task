@@ -7,10 +7,11 @@ import Project from './Project'
 import ProjectComponent from './ProjectComponent'
 import {GrFormAdd} from "react-icons/gr"
 
-function Body() {
+function Body({filterState}) {
 const [state, setState] = useState([])
 const [projectState, setProjectState] = useState([])
-const [reload, setReload] = useState("")
+const [reload, setReload] = useState(false)
+
 
 
 useEffect(() => {
@@ -22,7 +23,11 @@ useEffect(() => {
   if (data2){
   setProjectState([...data2])
   }
-}, [])
+}, [reload])
+
+const handleReload = () => {
+    setReload(!reload)
+}
 const handleCheck = (id) => {
   const elements = JSON.parse(localStorage.getItem("items"))
  const index = elements.findIndex((i) => {
@@ -35,7 +40,7 @@ element.checked = !element.checked
  elements.splice(index,1,element)
 
 localStorage.setItem("items",JSON.stringify(elements))
-window.location.reload()
+setReload(!reload)
 }
 
 const deleteItem = (id) => {
@@ -45,7 +50,7 @@ const deleteItem = (id) => {
        return i.id !== id
     })
     localStorage.setItem("items", JSON.stringify(modifiedData))
-    window.location.reload()
+    setReload(!reload)
 }
 const items = state.map((i,j) => {
     return <div className="text" key={j}>
@@ -81,13 +86,6 @@ const projectElement = projectState.map((i,j) => {
           }
           className='rounded' />
           <span className='heading'>{i.ProjectName}</span>
-          <span className='click' onClick={
-            () => {
-            deleteItem(i.id)
-            }
-          }>
-          <MdDeleteForever />
-          </span>
     </div>
 })
 
@@ -101,23 +99,23 @@ const projectElement = projectState.map((i,j) => {
        <AiOutlineArrowRight />
      </span>
      </div>
-     <ProjectComponent />
+     <ProjectComponent filterState={filterState} />
      </div>
     <div className='wrapper-center'>
        <div className="top mt-3">
         <h3>All Task For Today</h3>
       <div className="new">
-        <Task />
+        <Task handleReload={handleReload}  />
       </div>
        </div>
        <div className="wrapper-body">
      {
-        items.length > 0 ? items : <div> They are zero todos present  </div>
+        items.length > 0 ? items : <div> They are zero task present  </div>
      }
      <div className='mt-5'>
         <div className="wrapper d-flex justify-content-between align-items-center">
         <h3>Projects</h3>
-        <Project />
+        <Project handleReload={handleReload} />
         </div>
         <div>
         {

@@ -1,10 +1,17 @@
-import React from 'react'
+    import React, {useState, useEffect} from 'react'
 import "../styles/header.css"
 import {BsSearch, BsPersonFill } from "react-icons/bs"
 import {AiOutlineBell} from "react-icons/ai"
 import {GrFormAdd} from "react-icons/gr"
 
-function Header() {
+
+function Header({filterText}) {
+    const [state, setState] = useState("")
+    useEffect(() => {
+      filterText(state)
+    }, [state])
+    
+   
   return (
    <div className="header border border-bottom-success">
     <div className="headerFirst">
@@ -12,6 +19,9 @@ function Header() {
         <div className="search">
             <BsSearch color='white'  />
             <input type="text"
+            onChange={(e) => {
+                setState(e.target.value)
+            }}
              placeholder='Search Process Or Tags' />
         </div>
     </div>
