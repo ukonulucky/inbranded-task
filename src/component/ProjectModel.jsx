@@ -2,16 +2,20 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import {AiOutlineArrowRight } from "react-icons/ai"
+import {MdDeleteForever} from "react-icons/md"
+import "../styles/ProjectModel.css"
 
 
-function ProjectModel({ProjectName, projectId}) {
+function ProjectModel({ProjectName, projectId, count}) {
   const [show, setShow] = useState(false);
-  const [submit, setSubmit] = useState(false)
   const [state,setState] = useState([]);
   const [task,setTask] = useState("");
   const [error,setError] = useState(false);
   const [projectState,setProjectState] = useState([]);
 
+
+ 
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("items"))
@@ -33,16 +37,13 @@ function ProjectModel({ProjectName, projectId}) {
    }else{
     setError(false)
    }
-  
-         const Id = projectState.findIndex(i => i.id === projectId)
-         const myProject = projectState.slice(Id, Id + 1)
+   const projects = JSON.parse(localStorage.getItem("projects"))
+         const Id = projects.findIndex(i => i.id === projectId)
+         const myProject = projects.slice(Id, Id + 1)
        const taskObject= state?.find(i => i.id === JSON.parse(task))
          myProject[0].task = [...myProject[0].task, taskObject]
-       console.log("this is my project2", myProject)
-      projectState.splice(Id, 1, {...myProject})
-       console.log(projectState)
-    localStorage.setItem("items", JSON.stringify(projectState))
-    
+      projects.splice(Id, 1, {...myProject[0]})
+     localStorage.setItem("projects", JSON.stringify(projects))
  }
 
 
@@ -51,17 +52,73 @@ function ProjectModel({ProjectName, projectId}) {
     window.location.reload()
   };
   const handleShow = () => setShow(true);
- const dropDownOptions = state?.map((i,j) => 
-   {
+  const elementToShow = projectState?.find((i) => {
+  return i.id === projectId
+  })
+  console.log("this is the element to show",elementToShow)
+ const dropDownOptions = state?.map((i,j) => {
+
+  if(elementToShow.task?.id && i.task?.id !== elementToShow.task?.id ){
+    return   <option key={j} value={ i.id }>{i.taskHeading}</option>
+ } else{
+  return   <option key={j} value={ i.id }>{i.taskHeading}</option>
+ }
+ })
    
-    return   <option key={i.id} value={ i.id }>{i.taskHeading}</option>
-   }
- )
+ const taskList = projectState?.filter(i => i.id === projectId)
+ 
+ 
+ const handleDelete = (Id) => {
+  const item = JSON.parse(localStorage.getItem("projects"))
+const modifiedData =  item.filter((i) => {
+       return i.id === projectId
+  })
+  const taskClicked = modifiedData[0]?.task.filter( i => i.id !== Id)
+  console.log(taskClicked)
+  modifiedData[0].task = taskClicked
+  const updatedData = modifiedData[0]
+  item.splice(projectId, 1, updatedData)
+
+  localStorage.setItem("projects", JSON.stringify(item))
+  // window.location.reload()
+//     window.location.reload()
+console.log("delete project")
+ }
+
+ const taskElement = taskList[0]?.task.map((i,j) => {
+    return <div key={i.id}>
+    <div className="content" style={{
+        display: "flex"
+    }}>
+    <li> <span>Task Heading:   {i.taskHeading}</span>
+     <h6>Task Content:   {i.taskContent}</h6>
+     </li>
+    </div>
+  <span onClick= {() => {
+    handleDelete(i.id)
+  }} style={{
+    cursor:"pointer"
+  }}>
+  <MdDeleteForever />
+  </span>
+    </div>
+ })
+
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-       Add Task
-      </Button>
+      <span style={
+        {
+            cursor: "pointer",
+            fontSize: "15px",
+             display: 'flex',
+            alignItems: 'center',
+             justifyContent: 'space-between',
+            fontSize:"12px",
+            fontWeight:"lighter",
+        }
+      } variant="secondary" onClick={handleShow}>
+     They are {count} task available <AiOutlineArrowRight />
+      </span>
 
       <Modal
         show={show}
@@ -73,6 +130,13 @@ function ProjectModel({ProjectName, projectId}) {
           <Modal.Title>{ProjectName} -- Add Task To Project</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+         <h3>List Of Task</h3>
+         {
+            taskElement?.length > 0 ? <ol>
+                {taskElement}
+            </ol> : "No tasks available"
+         }
+
         <Form onSubmit={handleForm}>
         <Form.Select
         onChange={(e) => {
