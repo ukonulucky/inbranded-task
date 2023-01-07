@@ -5,6 +5,11 @@
   background-color: white;
   height: 80px;
 }
+@media screen and (max-width: 768px) {
+  .header .headerCenter span {
+    display: none;
+  }
+}
 .header .headerFirst, .header .headerCenter, .header .headerEnd {
   display: flex;
   align-items: center;
@@ -39,4 +44,21 @@
 }
 .header .headerFirst .search input::placeholder {
   color: white;
+}
+@media screen and (max-width: 500px) {
+  .header .headerFirst .search input::-moz-placeholder {
+    font-size: 12px;
+  }
+  .header .headerFirst .search input:-ms-input-placeholder {
+    font-size: 12px;
+  }
+  .header .headerFirst .search input::placeholder {
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .header .headerFirst .search input {
+    width: 130px;
+    padding: 0px;
+  }
 }/*# sourceMappingURL=header.css.map */
