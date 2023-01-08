@@ -3,12 +3,15 @@ import "../styles/header.css"
 import {BsSearch, BsPersonFill } from "react-icons/bs"
 import {AiOutlineBell} from "react-icons/ai"
 import {GrFormAdd} from "react-icons/gr"
+import { useDispatch } from 'react-redux' 
+import {addToText} from "../redux/actions"
 
-
-function Header({filterText}) {
+function Header() {
+    const dispatch = useDispatch()
+    
     const [state, setState] = useState("")
     useEffect(() => {
-      filterText(state)
+     dispatch(addToText(state))
     }, [state])
     
    

@@ -36,6 +36,7 @@ function Task({handleReload}) {
    setTaskHeading("")
    setSubmit(!submit)
    alert("task created successfully")
+   window.location.reload()
   }
   if(state.length > 0){
     localStorage.setItem("items", JSON.stringify(state))

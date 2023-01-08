@@ -151,9 +151,11 @@ alert("task deleted successfully")
          {
             taskElement?.length > 0 ? <ol>
                 {taskElement}
-            </ol> : "No tasks available"
+            </ol> : "No Added task"
          }
 
+       {
+        dropDownOptions.length > 0 ?
         <Form onSubmit={handleForm}>
         <Form.Select
         onChange={(e) => {
@@ -168,6 +170,8 @@ alert("task deleted successfully")
         Add To Task
      </button>
             </Form>
+        : <p>Not task Available To Be Added</p>
+       }
           {
             error ?  <p className='text-danger'>
             task field can not be empty

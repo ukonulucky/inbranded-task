@@ -24,6 +24,7 @@ function Project({handleReload}) {
         ProjectName: ProjectName,
         checked: false,
         id:Math.random(),
+        checked: false,
         task:[]
     }
     console.log(myProject)
@@ -32,6 +33,7 @@ function Project({handleReload}) {
    setProjectName("")
    setSubmit(!submit)
    alert("Project created successfully")
+  window.location.reload()
   }
   if(state.length > 0){
     localStorage.setItem("projects", JSON.stringify(state))

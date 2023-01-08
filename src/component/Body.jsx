@@ -7,7 +7,7 @@ import Project from './Project'
 import ProjectComponent from './ProjectComponent'
 import {GrFormAdd} from "react-icons/gr"
 
-function Body({filterState}) {
+function Body() {
 const [state, setState] = useState([])
 const [projectState, setProjectState] = useState([])
 const [reload, setReload] = useState(false)
@@ -28,7 +28,7 @@ useEffect(() => {
 const handleReload = () => {
     setReload(!reload)
 }
-const handleCheck = (id) => {
+const handleCheckTask = (id) => {
   const elements = JSON.parse(localStorage.getItem("items"))
  const index = elements.findIndex((i) => {
     return i.id === id
@@ -42,6 +42,21 @@ element.checked = !element.checked
 localStorage.setItem("items",JSON.stringify(elements))
 setReload(!reload)
 }
+
+const handleCheckProject = (id) => {
+    const elements = JSON.parse(localStorage.getItem("projects"))
+   const index = elements.findIndex((i) => {
+      return i.id === id
+   })
+  const newData = elements.slice(index,index + 1)
+  const element = newData[0]
+  console.log(element)
+  element.checked = !element.checked
+   elements.splice(index,1,element)
+  
+  localStorage.setItem("projects",JSON.stringify(elements))
+  setReload(!reload)
+  }
 
 const deleteItem = (id) => {
     console.log("code running")
@@ -59,7 +74,7 @@ const items = state.map((i,j) => {
           } 
           onChange= {
             () => {
-                handleCheck(i.id)
+                handleCheckTask(i.id)
             }
           }
           className='rounded' />
@@ -81,7 +96,7 @@ const projectElement = projectState.map((i,j) => {
           } 
           onChange= {
             () => {
-                handleCheck(i.id)
+                handleCheckProject(i.id)
             }
           }
           className='rounded' />
@@ -99,7 +114,7 @@ const projectElement = projectState.map((i,j) => {
        <AiOutlineArrowRight />
      </span>
      </div>
-     <ProjectComponent filterState={filterState} />
+     <ProjectComponent />
      </div>
     <div className='wrapper-center'>
        <div className="top mt-3">
